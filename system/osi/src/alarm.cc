@@ -680,7 +680,16 @@ static bool timer_create_internal(const clockid_t clock_id, timer_t* timer) {
   sigevent.sigev_notify = SIGEV_THREAD;
   sigevent.sigev_notify_function = (void (*)(union sigval))timer_callback;
   sigevent.sigev_notify_attributes = &thread_attr;
-  if (timer_create(clock_id, &sigevent, timer) == -1) {
+  int ret = timer_create(clock_id, &sigevent, timer);
+  if (ret == -1) {
+    log::warn("unable to create real-time timer with clock {}: {}; retrying without RT", clock_id,
+              strerror(errno));
+    memset(&sigevent, 0, sizeof(sigevent));
+    sigevent.sigev_notify = SIGEV_THREAD;
+    sigevent.sigev_notify_function = (void (*)(union sigval))timer_callback;
+    ret = timer_create(clock_id, &sigevent, timer);
+  }
+  if (ret == -1) {
     log::error("unable to create timer with clock {}: {}", clock_id, strerror(errno));
     if (clock_id == CLOCK_BOOTTIME_ALARM) {
       log::error(
