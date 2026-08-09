@@ -197,6 +197,14 @@ struct HciLayer::impl {
       common::StopWatch::DumpStopWatchLog();
       return;
     }
+    if (waiting_command_ == OpCode::LE_GET_VENDOR_CAPABILITIES &&
+        op_code == static_cast<OpCode>(0xffff)) {
+      LOG_WARN(
+          "Treating malformed Command Complete opcode 0xffff as response to 0x%02hx (%s)",
+          waiting_command_,
+          OpCodeText(waiting_command_).c_str());
+      op_code = waiting_command_;
+    }
     ASSERT_LOG(
         waiting_command_ == op_code,
         "Waiting for 0x%02hx (%s), got 0x%02hx (%s)",
