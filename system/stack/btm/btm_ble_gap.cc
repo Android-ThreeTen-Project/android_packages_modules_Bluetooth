@@ -638,6 +638,11 @@ static void btm_ble_vendor_capability_vsc_cmpl_cback(
   BTM_TRACE_DEBUG("%s", __func__);
 
   /* Check status of command complete event */
+  if (p_vcs_cplt_params->opcode == 0xffff) {
+    LOG(WARNING) << __func__
+                 << ": treating malformed opcode 0xffff as HCI_BLE_VENDOR_CAP";
+    p_vcs_cplt_params->opcode = HCI_BLE_VENDOR_CAP;
+  }
   CHECK(p_vcs_cplt_params->opcode == HCI_BLE_VENDOR_CAP);
   CHECK(p_vcs_cplt_params->param_len > 0);
 
