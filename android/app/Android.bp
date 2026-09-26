@@ -158,7 +158,7 @@ cc_library_shared {
         "libvndksupport",
     ],
     sanitize: {
-        scs: true,
+        scs: false,
     },
     apex_available: [
         "com.android.btservices",
@@ -201,7 +201,7 @@ cc_library {
         "-fvisibility=default",
     ],
     sanitize: {
-        scs: true,
+        scs: false,
     },
     apex_available: [
         "com.android.btservices",

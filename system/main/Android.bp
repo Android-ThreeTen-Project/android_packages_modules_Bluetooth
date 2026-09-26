@@ -109,7 +109,7 @@ cc_library {
     // also dlopen(3) the shared library.
     ldflags: ["-Wl,-Bsymbolic,-Bsymbolic-functions"],
     sanitize: {
-        scs: true,
+        scs: false,
     },
     apex_available: [
         "com.android.btservices",
