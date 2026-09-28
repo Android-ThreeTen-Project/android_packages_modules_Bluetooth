@@ -131,7 +131,7 @@ cc_library_shared {
         "libvndksupport",
     ],
     sanitize: {
-        scs: true,
+        scs: false,
     },
     apex_available: ["com.android.bt"],
     min_sdk_version: "36",
