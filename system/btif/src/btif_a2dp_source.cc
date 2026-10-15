@@ -325,7 +325,7 @@ bool btif_a2dp_source_init(void) {
 
   if (!btif_a2dp_source_thread.EnableRealTimeScheduling()) {
 #if defined(__ANDROID__)
-    log::fatal("unable to enable real time scheduling");
+    log::error("unable to enable real time scheduling");
 #endif
   }
 
